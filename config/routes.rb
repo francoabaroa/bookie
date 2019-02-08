@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
-  namespace :api do
-    namespace :v1 do
-      resources :books
+    root :to => "application#fallback_index_html"
+
+    namespace :api do
+      namespace :v1 do
+        resources :books
+      end
     end
-  end
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+    get ":default" => "application#fallback_index_html"
 end
+
+
