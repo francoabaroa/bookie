@@ -3,6 +3,10 @@ export const FETCH_BOOKS_BEGIN = "FETCH_BOOKS_BEGIN";
 export const FETCH_BOOKS_SUCCESS = "FETCH_BOOKS_SUCCESS";
 export const FETCH_BOOKS_FAILURE = "FETCH_BOOKS_FAILURE";
 
+export const DELETE_BOOK_BEGIN = "DELETE_BOOK_BEGIN";
+export const DELETE_BOOK_SUCCESS = "DELETE_BOOK_SUCCESS";
+export const DELETE_BOOK_FAILURE = "DELETE_BOOK_FAILURE";
+
 function fetchBooks() {
   return fetch(API)
     .then(handleErrors)
