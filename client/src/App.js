@@ -1,28 +1,45 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import PropTypes from 'prop-types';
 import './App.css';
 
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+  },
+  input: {
+    display: 'none',
+  },
+});
+
 class App extends Component {
+
   render() {
+    const { classes } = this.props;
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Button variant="contained" color="primary" className={classes.button}>
+          Add a book
+        </Button>
+        <Button variant="contained" color="primary" className={classes.button}>
+          Show a book
+        </Button>
+        <Button variant="contained" color="primary" className={classes.button}>
+          Update a book
+        </Button>
+        <Button variant="contained" color="secondary" className={classes.button}>
+          Delete a book
+        </Button>
       </div>
     );
   }
 }
 
-export default App;
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(App);
