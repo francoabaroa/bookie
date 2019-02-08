@@ -6,13 +6,61 @@ import { fetchBooksAction } from './actions/actions';
 
 import Button from '@material-ui/core/Button';
 
+import PropTypes from 'prop-types';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+  },
+  heading: {
+    fontSize: 26,
+  },
+});
+
 const mapDispatchToProps = dispatch => ({
   fetchBooksAction: () => dispatch(fetchBooksAction()),
 });
 
 class App extends Component {
   componentWillMount() {
-    this.props.fetchBooksAction()
+    this.props.fetchBooksAction();
+  }
+
+  displayBooks(props) {
+    const { books } = props;
+    const { bookAlphabetizedMap } = books;
+    const expansionPanels = [];
+
+    for (var key in bookAlphabetizedMap) {
+      let expansionPanelDetails = [];
+      bookAlphabetizedMap[key].forEach((z) => {
+        expansionPanelDetails.push(
+          <ExpansionPanelDetails>
+            <Typography>{z.title}</Typography>
+          </ExpansionPanelDetails>
+        );
+      });
+
+      expansionPanels.push(
+        <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography>{key}</Typography>
+          </ExpansionPanelSummary>
+          {expansionPanelDetails}
+        </ExpansionPanel>
+      );
+    }
+
+    return (
+      <div style={{ width: '50%', paddingLeft: '340px', paddingTop: '20px' }}>
+        {expansionPanels}
+      </div>
+    );
   }
 
   render() {
@@ -31,6 +79,7 @@ class App extends Component {
         <Button variant="contained" color="primary">
           Delete a book
         </Button>
+        {this.displayBooks(this.props)}
       </div>
     );
   }

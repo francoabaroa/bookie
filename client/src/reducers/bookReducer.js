@@ -1,33 +1,76 @@
 import {
   FETCH_BOOKS_BEGIN,
   FETCH_BOOKS_SUCCESS,
-  FETCH_BOOKS_FAILURE
+  FETCH_BOOKS_FAILURE,
 } from '../actions/actions';
 
 const initialState = {
+  bookAlphabetizedMap: {},
   books: [],
   loading: false,
-  error: null
+  error: null,
 };
 
+function alphabetize(books) {
+  const alphabet = [
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
+    'i',
+    'j',
+    'k',
+    'l',
+    'm',
+    'n',
+    'o',
+    'p',
+    'q',
+    'r',
+    's',
+    't',
+    'u',
+    'v',
+    'w',
+    'x',
+    'y',
+    'z',
+  ];
+  const alphabetizedMap = {};
+  alphabet.forEach(x => {
+    alphabetizedMap[x.toUpperCase()] = [];
+  });
+  books.forEach(y => {
+    let firstLetter = y.title[0].toUpperCase();
+    alphabetizedMap[firstLetter].push(y);
+  });
+  return alphabetizedMap;
+}
+
 export default (state = initialState, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case FETCH_BOOKS_BEGIN:
       // Mark the state as "loading" so we can show a spinner or something
       // Reset any errors
       return {
         ...state,
         loading: true,
-        error: null
+        error: null,
       };
 
     case FETCH_BOOKS_SUCCESS:
       // All done: set loading "false".
       // Also, replace the books with the ones from the server
+      let map = alphabetize(action.payload.books);
       return {
         ...state,
         loading: false,
-        books: action.payload.books
+        books: action.payload.books,
+        bookAlphabetizedMap: map,
       };
 
     case FETCH_BOOKS_FAILURE:
@@ -41,10 +84,11 @@ export default (state = initialState, action) => {
         ...state,
         loading: false,
         error: action.payload.error,
-        books: []
+        books: [],
+        bookAlphabetizedMap: {},
       };
 
     default:
       return state;
   }
-}
+};
