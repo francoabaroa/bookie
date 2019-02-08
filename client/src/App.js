@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import './App.css';
 
-import { withStyles } from '@material-ui/core/styles';
+import { fetchBooksAction } from './actions/actions';
+
 import Button from '@material-ui/core/Button';
 
-const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
-  },
-  input: {
-    display: 'none',
-  },
+const mapDispatchToProps = dispatch => ({
+  fetchBooksAction: () => dispatch(fetchBooksAction()),
 });
 
 class App extends Component {
+  fetchBooksAction = event => {
+    this.props.fetchBooksAction();
+  };
+
   render() {
     return (
       <div className="App">
@@ -32,14 +31,17 @@ class App extends Component {
         <Button variant="contained" color="primary">
           Delete a book
         </Button>
+        <button onClick={this.fetchBooksAction}>Fetch Books</button>
       </div>
     );
   }
 }
 
-App.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+const mapStateToProps = state => ({
+  ...state,
+});
 
-export default withStyles(styles)(App);
-
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
