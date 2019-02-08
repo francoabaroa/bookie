@@ -11,9 +11,9 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class App extends Component {
-  fetchBooksAction = event => {
-    this.props.fetchBooksAction();
-  };
+  componentWillMount() {
+    this.props.fetchBooksAction()
+  }
 
   render() {
     return (
@@ -31,7 +31,6 @@ class App extends Component {
         <Button variant="contained" color="primary">
           Delete a book
         </Button>
-        <button onClick={this.fetchBooksAction}>Fetch Books</button>
       </div>
     );
   }
