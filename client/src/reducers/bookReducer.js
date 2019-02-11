@@ -6,9 +6,12 @@ import {
   DELETE_BOOK_BEGIN,
   DELETE_BOOK_SUCCESS,
   DELETE_BOOK_FAILURE,
+  EDIT_BOOK,
   FETCH_BOOKS_BEGIN,
   FETCH_BOOKS_SUCCESS,
   FETCH_BOOKS_FAILURE,
+  GO_HOME,
+  SHOW_BOOK,
   UPDATE_BOOK_BEGIN,
   UPDATE_BOOK_SUCCESS,
   UPDATE_BOOK_FAILURE,
@@ -127,13 +130,14 @@ export default (state = initialState, action) => {
         currentPageEnum: PageEnum.ROOT,
       };
 
-    case UPDATE_BOOK_BEGIN:
+    case EDIT_BOOK:
       return {
         ...state,
-        loading: true,
-        selectCheckboxClicked: false,
+        loading: false,
         error: null,
-        currentPageEnum: PageEnum.ROOT,
+        selectCheckboxClicked: false,
+        activeBook: action.payload.activeBook,
+        currentPageEnum: PageEnum.EDIT,
       };
 
     case FETCH_BOOKS_BEGIN:
@@ -169,6 +173,34 @@ export default (state = initialState, action) => {
         error: action.payload.error,
         books: [],
         bookAlphabetizedMap: {},
+      };
+
+    case GO_HOME:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        activeBook: {},
+        selectCheckboxClicked: false,
+        currentPageEnum: PageEnum.ROOT,
+      };
+
+    case SHOW_BOOK:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        activeBook: action.payload.activeBook,
+        currentPageEnum: PageEnum.SHOW,
+      };
+
+    case UPDATE_BOOK_BEGIN:
+      return {
+        ...state,
+        loading: true,
+        selectCheckboxClicked: false,
+        error: null,
+        currentPageEnum: PageEnum.ROOT,
       };
 
     case UPDATE_BOOK_SUCCESS:
