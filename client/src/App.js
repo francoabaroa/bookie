@@ -189,6 +189,13 @@ class App extends Component {
             <Button
               variant="contained"
               disabled={!selectCheckboxClicked}
+              onClick={this.props.showBookAction.bind(this, activeBook)}
+            >
+              View
+            </Button>
+            <Button
+              variant="contained"
+              disabled={!selectCheckboxClicked}
               onClick={this.props.editBookAction.bind(this, activeBook)}
             >
               Edit
