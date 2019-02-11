@@ -74,7 +74,7 @@ class App extends Component {
       let expansionPanelDetails = [];
       bookAlphabetizedMap[key].forEach(book => {
         expansionPanelDetails.push(
-          <ExpansionPanelDetails>
+          <ExpansionPanelDetails style={{ paddingBottom: '5px' }}>
             <Checkbox
               checked={activeBook.isbn === book.isbn}
               onChange={event => {
@@ -84,7 +84,7 @@ class App extends Component {
               value={book.isbn}
             />
             <Typography
-              style={{ fontWeight: 'bold' }}
+              style={{ fontWeight: 'bold', paddingTop: '15px' }}
               onClick={this.props.showBookAction.bind(this, book)}
             >
               {book.title}
@@ -103,11 +103,7 @@ class App extends Component {
       );
     }
 
-    return (
-      <div style={{ width: '50%', paddingLeft: '340px', paddingTop: '20px' }}>
-        {expansionPanels}
-      </div>
-    );
+    return <div style={{ padding: '40px' }}>{expansionPanels}</div>;
   }
 
   render() {
@@ -164,6 +160,7 @@ class App extends Component {
             {' '}
             <h1 className="App-title">{AppConstants.APP_TITLE}</h1>
             <Button
+              className="App-buttons"
               variant={AppConstants.CONTAINED}
               color={AppConstants.PRIMARY}
               onClick={this.props.addBookPageAction}
@@ -171,6 +168,7 @@ class App extends Component {
               {AppConstants.ADD}
             </Button>
             <Button
+              className="App-buttons"
               variant={AppConstants.CONTAINED}
               disabled={!selectCheckboxClicked}
               onClick={this.props.showBookAction.bind(this, activeBook)}
@@ -178,6 +176,7 @@ class App extends Component {
               {AppConstants.VIEW}
             </Button>
             <Button
+              className="App-buttons"
               variant={AppConstants.CONTAINED}
               disabled={!selectCheckboxClicked}
               onClick={this.props.editBookAction.bind(this, activeBook)}
@@ -185,6 +184,7 @@ class App extends Component {
               {AppConstants.EDIT}
             </Button>
             <Button
+              className="App-buttons"
               variant={AppConstants.CONTAINED}
               color={AppConstants.SECONDARY}
               onClick={this.props.deleteBookAction.bind(

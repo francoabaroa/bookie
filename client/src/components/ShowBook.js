@@ -12,12 +12,7 @@ import {
 } from '../actions/actions';
 
 import Button from '@material-ui/core/Button';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 
 const mapDispatchToProps = dispatch => ({
   deleteBookAction: (activeBookId, books) =>
@@ -28,38 +23,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class ShowBook extends Component {
-  displayBooks(props) {
-    const { books } = props;
-    const { bookAlphabetizedMap } = books;
-    const expansionPanels = [];
-
-    for (var key in bookAlphabetizedMap) {
-      let expansionPanelDetails = [];
-      bookAlphabetizedMap[key].forEach(book => {
-        expansionPanelDetails.push(
-          <ExpansionPanelDetails>
-            <Typography>{book.title}</Typography>
-          </ExpansionPanelDetails>
-        );
-      });
-
-      expansionPanels.push(
-        <ExpansionPanel>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography>{key}</Typography>
-          </ExpansionPanelSummary>
-          {expansionPanelDetails}
-        </ExpansionPanel>
-      );
-    }
-
-    return (
-      <div style={{ width: '50%', paddingLeft: '340px', paddingTop: '20px' }}>
-        {expansionPanels}
-      </div>
-    );
-  }
-
   render() {
     const { books } = this.props;
     const { activeBook } = books;
@@ -72,6 +35,7 @@ class ShowBook extends Component {
           id="outlined-read-only-input"
           label={AppConstants.ISBN}
           defaultValue={isbn}
+          style={{ margin: 8 }}
           margin={AppConstants.NORMAL}
           InputProps={textFieldInputProps}
           variant={AppConstants.OUTLINED}
@@ -79,6 +43,7 @@ class ShowBook extends Component {
         <TextField
           id="outlined-read-only-input"
           label={AppConstants.TITLE}
+          style={{ margin: 8 }}
           defaultValue={title}
           margin={AppConstants.NORMAL}
           InputProps={textFieldInputProps}
@@ -88,36 +53,41 @@ class ShowBook extends Component {
           id="outlined-read-only-input"
           label={AppConstants.NOTES}
           defaultValue={notes}
-          style={{ margin: 8, width: '70%' }}
+          style={{ margin: 8, maxWidth: '80%' }}
           margin={AppConstants.NORMAL}
           fullWidth
           InputProps={textFieldInputProps}
           variant={AppConstants.OUTLINED}
         />
-        <Button
-          variant={AppConstants.CONTAINED}
-          color={AppConstants.PRIMARY}
-          onClick={this.props.goHomeAction}
-        >
-          {AppConstants.HOME}
-        </Button>
-        <Button
-          variant={AppConstants.CONTAINED}
-          onClick={this.props.editBookAction.bind(this, activeBook)}
-        >
-          {AppConstants.EDIT}
-        </Button>
-        <Button
-          variant={AppConstants.CONTAINED}
-          color={AppConstants.SECONDARY}
-          onClick={this.props.deleteBookAction.bind(
-            this,
-            activeBook.id,
-            books.books
-          )}
-        >
-          {AppConstants.DELETE}
-        </Button>
+        <div>
+          <Button
+            className="App-buttons"
+            variant={AppConstants.CONTAINED}
+            color={AppConstants.PRIMARY}
+            onClick={this.props.goHomeAction}
+          >
+            {AppConstants.HOME}
+          </Button>
+          <Button
+            className="App-buttons"
+            variant={AppConstants.CONTAINED}
+            onClick={this.props.editBookAction.bind(this, activeBook)}
+          >
+            {AppConstants.EDIT}
+          </Button>
+          <Button
+            className="App-buttons"
+            variant={AppConstants.CONTAINED}
+            color={AppConstants.SECONDARY}
+            onClick={this.props.deleteBookAction.bind(
+              this,
+              activeBook.id,
+              books.books
+            )}
+          >
+            {AppConstants.DELETE}
+          </Button>
+        </div>
       </div>
     );
   }

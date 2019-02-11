@@ -16,12 +16,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 
 const mapDispatchToProps = dispatch => ({
   addBookAction: (book, books) => dispatch(addBookAction(book, books)),
@@ -67,38 +62,6 @@ class AddBook extends Component {
       this.props.addBookAction({ isbn, title, notes }, this.props.books.books);
     }
   };
-
-  displayBooks(props) {
-    const { books } = props;
-    const { bookAlphabetizedMap } = books;
-    const expansionPanels = [];
-
-    for (var key in bookAlphabetizedMap) {
-      let expansionPanelDetails = [];
-      bookAlphabetizedMap[key].forEach(book => {
-        expansionPanelDetails.push(
-          <ExpansionPanelDetails>
-            <Typography>{book.title}</Typography>
-          </ExpansionPanelDetails>
-        );
-      });
-
-      expansionPanels.push(
-        <ExpansionPanel>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography>{key}</Typography>
-          </ExpansionPanelSummary>
-          {expansionPanelDetails}
-        </ExpansionPanel>
-      );
-    }
-
-    return (
-      <div style={{ width: '50%', paddingLeft: '340px', paddingTop: '20px' }}>
-        {expansionPanels}
-      </div>
-    );
-  }
 
   render() {
     let missingRequiredFieldsCounter = 0;
@@ -162,6 +125,7 @@ class AddBook extends Component {
           label={AppConstants.ISBN_REQUIRED}
           placeholder={AppConstants.ENTER_ISBN}
           value={this.state.isbn}
+          style={{ margin: 8 }}
           onChange={this.handleChange(AppConstants.ISBN_LOWERCASE)}
           margin={AppConstants.NORMAL}
           variant={AppConstants.OUTLINED}
@@ -171,6 +135,7 @@ class AddBook extends Component {
           label={AppConstants.TITLE_REQUIRED}
           placeholder={AppConstants.ENTER_TITLE}
           value={this.state.title}
+          style={{ margin: 8 }}
           onChange={this.handleChange(AppConstants.TITLE_LOWERCASE)}
           margin={AppConstants.NORMAL}
           variant={AppConstants.OUTLINED}
@@ -178,27 +143,32 @@ class AddBook extends Component {
         <TextField
           id="outlined-full-width"
           label={AppConstants.NOTES}
-          style={{ margin: 8, width: '70%' }}
+          style={{ margin: 8, maxWidth: '80%' }}
           placeholder={AppConstants.ENTER_NOTES}
+          fullWidth
           value={this.state.notes}
           onChange={this.handleChange(AppConstants.NOTES_LOWERCASE)}
           margin={AppConstants.NORMAL}
           variant={AppConstants.OUTLINED}
         />
-        <Button
-          variant={AppConstants.CONTAINED}
-          color={AppConstants.PRIMARY}
-          onClick={this.saveBookOnSubmit}
-        >
-          {AppConstants.SUBMIT}
-        </Button>
-        <Button
-          variant={AppConstants.CONTAINED}
-          color={AppConstants.SECONDARY}
-          onClick={this.props.goHomeAction}
-        >
-          {AppConstants.CANCEL}
-        </Button>
+        <div>
+          <Button
+            className="App-buttons"
+            variant={AppConstants.CONTAINED}
+            color={AppConstants.PRIMARY}
+            onClick={this.saveBookOnSubmit}
+          >
+            {AppConstants.SUBMIT}
+          </Button>
+          <Button
+            className="App-buttons"
+            variant={AppConstants.CONTAINED}
+            color={AppConstants.SECONDARY}
+            onClick={this.props.goHomeAction}
+          >
+            {AppConstants.CANCEL}
+          </Button>
+        </div>
       </div>
     );
   }

@@ -28,7 +28,6 @@ export const UPDATE_BOOK_SUCCESS = 'UPDATE_BOOK_SUCCESS';
 export const UPDATE_BOOK_FAILURE = 'UPDATE_BOOK_FAILURE';
 
 function addBook(book) {
-  // TODO: show relevant error message to user
   const url = 'api/v1/books';
   const body = JSON.stringify({
     book: { isbn: book.isbn, title: book.title, notes: book.notes },
@@ -46,8 +45,6 @@ function addBook(book) {
 }
 
 function deleteBook(activeBookId) {
-  // TODO: show relevant error message to user
-  // TODO: fix no-useless-concat
   let url = 'api/v1/books' + '/' + activeBookId;
   return fetch(url, { method: 'delete' })
     .then(handleErrors)
@@ -63,8 +60,6 @@ function fetchBooks() {
 }
 
 function updateBook(activeBook) {
-  // TODO: fix no-useless-concat
-  // TODO: show relevant error message to user
   const url = 'api/v1/books' + '/' + activeBook.id;
   const body = JSON.stringify({
     book: {

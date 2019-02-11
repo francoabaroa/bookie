@@ -18,12 +18,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 
 const mapDispatchToProps = dispatch => ({
   fetchBooksAction: () => dispatch(fetchBooksAction()),
@@ -87,38 +82,6 @@ class EditBook extends Component {
     this.setState({ dialogOpen: false });
   };
 
-  displayBooks(props) {
-    const { books } = props;
-    const { bookAlphabetizedMap } = books;
-    const expansionPanels = [];
-
-    for (var key in bookAlphabetizedMap) {
-      let expansionPanelDetails = [];
-      bookAlphabetizedMap[key].forEach(book => {
-        expansionPanelDetails.push(
-          <ExpansionPanelDetails>
-            <Typography>{book.title}</Typography>
-          </ExpansionPanelDetails>
-        );
-      });
-
-      expansionPanels.push(
-        <ExpansionPanel>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography>{key}</Typography>
-          </ExpansionPanelSummary>
-          {expansionPanelDetails}
-        </ExpansionPanel>
-      );
-    }
-
-    return (
-      <div style={{ width: '50%', paddingLeft: '340px', paddingTop: '20px' }}>
-        {expansionPanels}
-      </div>
-    );
-  }
-
   render() {
     let missingRequiredFieldsCounter = 0;
     let missingFieldsMsg = '';
@@ -181,6 +144,7 @@ class EditBook extends Component {
           id="outlined-name"
           label={AppConstants.ISBN_REQUIRED}
           value={this.state.isbn}
+          style={{ margin: 8 }}
           placeholder={AppConstants.ENTER_ISBN}
           onChange={this.handleChange(AppConstants.ISBN_LOWERCASE)}
           margin={AppConstants.NORMAL}
@@ -190,6 +154,7 @@ class EditBook extends Component {
           id="outlined-name"
           label={AppConstants.TITLE_REQUIRED}
           value={this.state.title}
+          style={{ margin: 8 }}
           placeholder={AppConstants.ENTER_TITLE}
           onChange={this.handleChange(AppConstants.TITLE_LOWERCASE)}
           margin={AppConstants.NORMAL}
@@ -199,26 +164,31 @@ class EditBook extends Component {
           id="outlined-full-width"
           label={AppConstants.NOTES}
           value={this.state.notes}
-          style={{ margin: 8, width: '70%' }}
+          style={{ margin: 8, maxWidth: '80%' }}
           placeholder={AppConstants.ENTER_NOTES}
           onChange={this.handleChange(AppConstants.NOTES_LOWERCASE)}
+          fullWidth
           margin={AppConstants.NORMAL}
           variant={AppConstants.OUTLINED}
         />
-        <Button
-          variant={AppConstants.CONTAINED}
-          color={AppConstants.PRIMARY}
-          onClick={this.saveBookOnSubmit}
-        >
-          {AppConstants.SUBMIT}
-        </Button>
-        <Button
-          variant={AppConstants.CONTAINED}
-          color={AppConstants.SECONDARY}
-          onClick={this.props.goHomeAction}
-        >
-          {AppConstants.CANCEL}
-        </Button>
+        <div>
+          <Button
+            className="App-buttons"
+            variant={AppConstants.CONTAINED}
+            color={AppConstants.PRIMARY}
+            onClick={this.saveBookOnSubmit}
+          >
+            {AppConstants.SUBMIT}
+          </Button>
+          <Button
+            className="App-buttons"
+            variant={AppConstants.CONTAINED}
+            color={AppConstants.SECONDARY}
+            onClick={this.props.goHomeAction}
+          >
+            {AppConstants.CANCEL}
+          </Button>
+        </div>
       </div>
     );
   }
