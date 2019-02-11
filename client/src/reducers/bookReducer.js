@@ -61,6 +61,7 @@ function alphabetize(books) {
     'z',
   ];
   const alphabetizedMap = {};
+  // TODO: better variable names for x, y
   alphabet.forEach(x => {
     alphabetizedMap[x.toUpperCase()] = [];
   });
