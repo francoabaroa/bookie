@@ -21,6 +21,8 @@ import {
 
 import { PageEnum } from '../enums/enums';
 
+import { alphabetizeBooks } from '../utils/utils';
+
 const initialState = {
   // TODO: alpha
   activeBook: {},
@@ -30,47 +32,6 @@ const initialState = {
   error: null,
   currentPageEnum: PageEnum.ROOT,
 };
-
-function alphabetize(books) {
-  const alphabet = [
-    'a',
-    'b',
-    'c',
-    'd',
-    'e',
-    'f',
-    'g',
-    'h',
-    'i',
-    'j',
-    'k',
-    'l',
-    'm',
-    'n',
-    'o',
-    'p',
-    'q',
-    'r',
-    's',
-    't',
-    'u',
-    'v',
-    'w',
-    'x',
-    'y',
-    'z',
-  ];
-  const alphabetizedMap = {};
-  // TODO: better variable names for x, y
-  alphabet.forEach(x => {
-    alphabetizedMap[x.toUpperCase()] = [];
-  });
-  books.forEach(y => {
-    let firstLetter = y.title[0].toUpperCase();
-    alphabetizedMap[firstLetter].push(y);
-  });
-  return alphabetizedMap;
-}
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -98,7 +59,7 @@ export default (state = initialState, action) => {
         books: newestBookList,
         selectCheckboxClicked: false,
         activeBook: {},
-        bookAlphabetizedMap: alphabetize(newestBookList),
+        bookAlphabetizedMap: alphabetizeBooks(newestBookList),
         currentPageEnum: PageEnum.ROOT,
       };
 
@@ -122,7 +83,7 @@ export default (state = initialState, action) => {
       const filteredBooks = action.payload.books.filter(book => {
         return book.id !== action.payload.deleteBookId;
       });
-      const filteredMap = alphabetize(filteredBooks);
+      const filteredMap = alphabetizeBooks(filteredBooks);
       return {
         ...state,
         loading: false,
@@ -163,7 +124,7 @@ export default (state = initialState, action) => {
     case FETCH_BOOKS_SUCCESS:
       // All done: set loading "false".
       // Also, replace the books with the ones from the server
-      let map = alphabetize(action.payload.books);
+      let map = alphabetizeBooks(action.payload.books);
       return {
         ...state,
         loading: false,
@@ -242,7 +203,7 @@ export default (state = initialState, action) => {
           return book;
         }
       });
-      const updatedMap = alphabetize(updatedBooks);
+      const updatedMap = alphabetizeBooks(updatedBooks);
       return {
         ...state,
         loading: false,
