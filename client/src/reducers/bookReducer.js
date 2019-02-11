@@ -11,7 +11,9 @@ import {
   FETCH_BOOKS_SUCCESS,
   FETCH_BOOKS_FAILURE,
   GO_HOME,
+  SELECT_BOOK_CHECKBOX,
   SHOW_BOOK,
+  UNSELECT_BOOK_CHECKBOX,
   UPDATE_BOOK_BEGIN,
   UPDATE_BOOK_SUCCESS,
   UPDATE_BOOK_FAILURE,
@@ -185,6 +187,16 @@ export default (state = initialState, action) => {
         currentPageEnum: PageEnum.ROOT,
       };
 
+    case SELECT_BOOK_CHECKBOX:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        selectCheckboxClicked: true,
+        activeBook: action.payload.activeBook,
+        currentPageEnum: PageEnum.ROOT,
+      };
+
     case SHOW_BOOK:
       return {
         ...state,
@@ -192,6 +204,16 @@ export default (state = initialState, action) => {
         error: null,
         activeBook: action.payload.activeBook,
         currentPageEnum: PageEnum.SHOW,
+      };
+
+    case UNSELECT_BOOK_CHECKBOX:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        selectCheckboxClicked: false,
+        activeBook: {},
+        currentPageEnum: PageEnum.ROOT,
       };
 
     case UPDATE_BOOK_BEGIN:
