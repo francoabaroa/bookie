@@ -3,6 +3,9 @@ import {
   ADD_BOOK_FAILURE,
   ADD_BOOK_PAGE,
   ADD_BOOK_SUCCESS,
+  DELETE_BOOK_BEGIN,
+  DELETE_BOOK_SUCCESS,
+  DELETE_BOOK_FAILURE,
   FETCH_BOOKS_BEGIN,
   FETCH_BOOKS_SUCCESS,
   FETCH_BOOKS_FAILURE,
@@ -11,7 +14,7 @@ import {
   UPDATE_BOOK_FAILURE,
 } from '../actions/actions';
 
-import { PageEnum } from '../enums';
+import { PageEnum } from '../enums/enums';
 
 const initialState = {
   // TODO: alpha
@@ -98,6 +101,38 @@ export default (state = initialState, action) => {
         ...state,
         loading: false,
         error: action.payload.error,
+        currentPageEnum: PageEnum.ROOT,
+      };
+
+    case DELETE_BOOK_SUCCESS:
+      const filteredBooks = action.payload.books.filter(book => {
+        return book.id !== action.payload.deleteBookId;
+      });
+      const filteredMap = alphabetize(filteredBooks);
+      return {
+        ...state,
+        loading: false,
+        books: filteredBooks,
+        selectCheckboxClicked: false,
+        activeBook: {},
+        bookAlphabetizedMap: filteredMap,
+        currentPageEnum: PageEnum.ROOT,
+      };
+
+    case DELETE_BOOK_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+        currentPageEnum: PageEnum.ROOT,
+      };
+
+    case UPDATE_BOOK_BEGIN:
+      return {
+        ...state,
+        loading: true,
+        selectCheckboxClicked: false,
+        error: null,
         currentPageEnum: PageEnum.ROOT,
       };
 
