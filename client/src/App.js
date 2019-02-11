@@ -21,6 +21,7 @@ import ShowBook from './components/ShowBook';
 
 import Button from '@material-ui/core/Button';
 
+// TODO: alpha
 import PropTypes from 'prop-types';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -29,6 +30,12 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const styles = theme => ({
   root: {
@@ -53,6 +60,13 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dialogOpen: true,
+    };
+  }
+
   componentWillMount() {
     this.props.fetchBooksAction();
   }
@@ -117,10 +131,35 @@ class App extends Component {
       currentPageEnum,
       selectCheckboxClicked,
     } = this.props.books;
-
+    const self = this;
+    let currentPage = [];
     // TODO fix this.props.books naming convention
     // TODO: add view button, view is very hidden
-    let currentPage = [];
+
+    if (this.props.books.error && this.state.dialogOpen) {
+      currentPage.push(
+        <Dialog
+          open={true}
+          onClose={() => {}}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {'Pst! There was an error trying to process your request.'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {'Error: ' + this.props.books.error.message.toString()}
+            </DialogContentText>
+          </DialogContent>
+        </Dialog>
+      );
+      setTimeout(() => {
+        self.setState({
+          dialogOpen: false,
+        });
+      }, 3500);
+    }
 
     switch (currentPageEnum) {
       case PageEnum.ADD:
