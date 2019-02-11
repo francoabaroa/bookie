@@ -9,6 +9,8 @@ export const DELETE_BOOK_BEGIN = 'DELETE_BOOK_BEGIN';
 export const DELETE_BOOK_SUCCESS = 'DELETE_BOOK_SUCCESS';
 export const DELETE_BOOK_FAILURE = 'DELETE_BOOK_FAILURE';
 
+export const EDIT_BOOK = 'EDIT_BOOK';
+
 export const FETCH_BOOKS_BEGIN = 'FETCH_BOOKS_BEGIN';
 export const FETCH_BOOKS_SUCCESS = 'FETCH_BOOKS_SUCCESS';
 export const FETCH_BOOKS_FAILURE = 'FETCH_BOOKS_FAILURE';
@@ -148,6 +150,17 @@ export function deleteBookAction(activeBookId, books) {
         return json;
       })
       .catch(error => dispatch(deleteBookFailure(error)));
+  };
+}
+
+export const editBook = activeBook => ({
+  type: EDIT_BOOK,
+  payload: { activeBook },
+});
+
+export function editBookAction(activeBook) {
+  return dispatch => {
+    dispatch(editBook(activeBook));
   };
 }
 
