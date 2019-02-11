@@ -2,7 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 
-import { fetchBooksAction } from './actions/actions';
+import {
+  deleteBookAction,
+  fetchBooksAction,
+  showBookAction,
+  editBookAction,
+  addBookAction,
+  selectBookCheckboxAction,
+  unselectBookCheckboxAction,
+  addBookPageAction,
+} from './actions/actions';
+
+import { PageEnum } from './enums/enums';
 
 import Button from '@material-ui/core/Button';
 
@@ -11,7 +22,7 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const styles = theme => ({
   root: {
@@ -24,6 +35,15 @@ const styles = theme => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchBooksAction: () => dispatch(fetchBooksAction()),
+  editBookAction: activeBook => dispatch(editBookAction(activeBook)),
+  deleteBookAction: (activeBookId, books) =>
+    dispatch(deleteBookAction(activeBookId, books)),
+  showBookAction: activeBook => dispatch(showBookAction(activeBook)),
+  addBookAction: () => dispatch(addBookAction()),
+  selectBookCheckboxAction: activeBook =>
+    dispatch(selectBookCheckboxAction(activeBook)),
+  unselectBookCheckboxAction: () => dispatch(unselectBookCheckboxAction()),
+  addBookPageAction: () => dispatch(addBookPageAction()),
 });
 
 class App extends Component {
@@ -38,7 +58,7 @@ class App extends Component {
 
     for (var key in bookAlphabetizedMap) {
       let expansionPanelDetails = [];
-      bookAlphabetizedMap[key].forEach((z) => {
+      bookAlphabetizedMap[key].forEach(z => {
         expansionPanelDetails.push(
           <ExpansionPanelDetails>
             <Typography>{z.title}</Typography>
