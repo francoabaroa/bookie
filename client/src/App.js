@@ -15,6 +15,10 @@ import {
 
 import { PageEnum } from './enums/enums';
 
+import AddBook from './components/AddBook';
+import EditBook from './components/EditBook';
+import ShowBook from './components/ShowBook';
+
 import Button from '@material-ui/core/Button';
 
 import PropTypes from 'prop-types';
@@ -107,24 +111,68 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <div className="App">
-        <h1 className="App-title">Bookie</h1>
-        <Button variant="contained" color="primary">
-          Add a book
-        </Button>
-        <Button variant="contained" color="primary">
-          Show a book
-        </Button>
-        <Button variant="contained" color="primary">
-          Update a book
-        </Button>
-        <Button variant="contained" color="primary">
-          Delete a book
-        </Button>
-        {this.displayBooks(this.props)}
-      </div>
-    );
+    const {
+      activeBook,
+      books,
+      currentPageEnum,
+      selectCheckboxClicked,
+    } = this.props.books;
+
+    // TODO fix this.props.books naming convention
+    // TODO: add view button, view is very hidden
+    let currentPage = [];
+
+    switch (currentPageEnum) {
+      case PageEnum.ADD:
+        currentPage.push(<AddBook />);
+        break;
+
+      case PageEnum.EDIT:
+        currentPage.push(<EditBook />);
+        break;
+
+      case PageEnum.SHOW:
+        currentPage.push(<ShowBook />);
+        break;
+
+      default:
+        currentPage.push(
+          <div key={0}>
+            {' '}
+            <h1 className="App-title">Bookie</h1>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.props.addBookPageAction}
+            >
+              Add
+            </Button>
+            <Button
+              variant="contained"
+              disabled={!selectCheckboxClicked}
+              onClick={this.props.editBookAction.bind(this, activeBook)}
+            >
+              Edit
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={this.props.deleteBookAction.bind(
+                this,
+                activeBook.id,
+                books
+              )}
+              disabled={!selectCheckboxClicked}
+            >
+              Delete
+            </Button>
+            {this.displayBooks(this.props)}{' '}
+          </div>
+        );
+        break;
+    }
+
+    return <div className="App">{currentPage}</div>;
   }
 }
 
