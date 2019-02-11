@@ -1,14 +1,22 @@
 import {
+  ADD_BOOK_BEGIN,
+  ADD_BOOK_FAILURE,
+  ADD_BOOK_PAGE,
+  ADD_BOOK_SUCCESS,
   FETCH_BOOKS_BEGIN,
   FETCH_BOOKS_SUCCESS,
   FETCH_BOOKS_FAILURE,
 } from '../actions/actions';
 
+import { PageEnum } from '../enums';
+
 const initialState = {
+  activeBook: {},
   bookAlphabetizedMap: {},
   books: [],
   loading: false,
   error: null,
+  currentPageEnum: PageEnum.ROOT,
 };
 
 function alphabetize(books) {
@@ -53,6 +61,42 @@ function alphabetize(books) {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case ADD_BOOK_PAGE:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        currentPageEnum: PageEnum.ADD,
+      };
+
+    case ADD_BOOK_BEGIN:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+        currentPageEnum: PageEnum.ROOT,
+      };
+
+    case ADD_BOOK_SUCCESS:
+      const newestBookList = [action.payload.book].concat(action.payload.books);
+      return {
+        ...state,
+        loading: false,
+        books: newestBookList,
+        selectCheckboxClicked: false,
+        activeBook: {},
+        bookAlphabetizedMap: alphabetize(newestBookList),
+        currentPageEnum: PageEnum.ROOT,
+      };
+
+    case ADD_BOOK_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+        currentPageEnum: PageEnum.ROOT,
+      };
+
     case FETCH_BOOKS_BEGIN:
       // Mark the state as "loading" so we can show a spinner or something
       // Reset any errors
