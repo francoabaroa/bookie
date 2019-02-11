@@ -18,6 +18,8 @@ import { PageEnum } from './enums/enums';
 import Button from '@material-ui/core/Button';
 
 import PropTypes from 'prop-types';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -51,17 +53,38 @@ class App extends Component {
     this.props.fetchBooksAction();
   }
 
+  checkbox = (checkedBook, isChecked) => {
+    if (isChecked) {
+      this.props.selectBookCheckboxAction(checkedBook);
+    } else {
+      this.props.unselectBookCheckboxAction();
+    }
+  };
+
   displayBooks(props) {
     const { books } = props;
-    const { bookAlphabetizedMap } = books;
+    const { bookAlphabetizedMap, activeBook } = books;
     const expansionPanels = [];
 
     for (var key in bookAlphabetizedMap) {
       let expansionPanelDetails = [];
-      bookAlphabetizedMap[key].forEach(z => {
+      bookAlphabetizedMap[key].forEach(book => {
         expansionPanelDetails.push(
           <ExpansionPanelDetails>
-            <Typography>{z.title}</Typography>
+            <Checkbox
+              checked={activeBook.isbn === book.isbn}
+              onChange={event => {
+                const { checked } = event.target;
+                this.checkbox.call(this, book, checked);
+              }}
+              value={book.isbn}
+            />
+            <Typography
+              style={{ fontWeight: 'bold' }}
+              onClick={this.props.showBookAction.bind(this, book)}
+            >
+              {book.title}
+            </Typography>
           </ExpansionPanelDetails>
         );
       });
@@ -69,7 +92,7 @@ class App extends Component {
       expansionPanels.push(
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography>{key}</Typography>
+            <Typography style={{ fontWeight: 'bold' }}>{key}</Typography>
           </ExpansionPanelSummary>
           {expansionPanelDetails}
         </ExpansionPanel>
