@@ -28,12 +28,21 @@ export const alphabetizeBooks = function(books) {
     'z',
   ];
   const alphabetizedMap = {};
+  // For any book titles starting in anything besides a letter.
+  alphabetizedMap['#'] = [];
+
   alphabet.forEach(alphabetLetter => {
     alphabetizedMap[alphabetLetter.toUpperCase()] = [];
   });
+
   books.forEach(book => {
     let firstLetter = book.title[0].toUpperCase();
-    alphabetizedMap[firstLetter].push(book);
+    if (alphabetizedMap[firstLetter]) {
+      alphabetizedMap[firstLetter].push(book);
+    } else {
+      // For any book titles starting in anything besides a letter.
+      alphabetizedMap['#'].push(book);
+    }
   });
   return alphabetizedMap;
 };
