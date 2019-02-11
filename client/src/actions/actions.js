@@ -13,6 +13,8 @@ export const FETCH_BOOKS_BEGIN = 'FETCH_BOOKS_BEGIN';
 export const FETCH_BOOKS_SUCCESS = 'FETCH_BOOKS_SUCCESS';
 export const FETCH_BOOKS_FAILURE = 'FETCH_BOOKS_FAILURE';
 
+export const GO_HOME = 'GO_HOME';
+
 export const SHOW_BOOK = 'SHOW_BOOK';
 
 export const UPDATE_BOOK_BEGIN = 'UPDATE_BOOK_BEGIN';
@@ -172,6 +174,16 @@ export function fetchBooksAction() {
         return json;
       })
       .catch(error => dispatch(fetchBooksFailure(error)));
+  };
+}
+
+export const goHome = () => ({
+  type: GO_HOME,
+});
+
+export function goHomeAction() {
+  return dispatch => {
+    dispatch(goHome());
   };
 }
 
