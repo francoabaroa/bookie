@@ -4,6 +4,8 @@ import '../App.css';
 
 import stringHash from 'string-hash';
 
+import { AppConstants } from '../constants/constants';
+
 import {
   fetchBooksAction,
   goHomeAction,
@@ -119,8 +121,8 @@ class EditBook extends Component {
 
   render() {
     let missingRequiredFieldsCounter = 0;
-    const missingFields = [];
     let missingFieldsMsg = '';
+    const missingFields = [];
 
     if (
       this.state.isbn.length === 0 ||
@@ -128,7 +130,7 @@ class EditBook extends Component {
       this.state.isbn === undefined
     ) {
       missingRequiredFieldsCounter++;
-      missingFields.push('isbn');
+      missingFields.push(AppConstants.ISBN_LOWERCASE);
     }
 
     if (
@@ -137,13 +139,16 @@ class EditBook extends Component {
       this.state.title === undefined
     ) {
       if (missingRequiredFieldsCounter === 1) {
-        missingFields.push('and');
+        missingFields.push(AppConstants.AND);
       }
       missingRequiredFieldsCounter++;
-      missingFields.push('title');
+      missingFields.push(AppConstants.TITLE_LOWERCASE);
     }
 
-    missingFieldsMsg = 'You forgot to add ' + missingFields.join(' ') + '!';
+    missingFieldsMsg =
+      AppConstants.YOU_FORGOT_TO +
+      missingFields.join(' ') +
+      AppConstants.EXCLAMATION_POINT;
 
     return (
       <div className="App">
@@ -154,7 +159,7 @@ class EditBook extends Component {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {"Pst! You're missing some required stuff."}
+            {AppConstants.REQUIRED_MSG_HEADER}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
@@ -162,53 +167,57 @@ class EditBook extends Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary" autoFocus>
-              Close
+            <Button
+              onClick={this.handleClose}
+              color={AppConstants.PRIMARY}
+              autoFocus
+            >
+              {AppConstants.CLOSE}
             </Button>
           </DialogActions>
         </Dialog>
-        <h1 className="App-title">Edit a book</h1>
+        <h1 className="App-title">{AppConstants.EDIT_A_BOOK}</h1>
         <TextField
           id="outlined-name"
-          label="ISBN *"
+          label={AppConstants.ISBN_REQUIRED}
           value={this.state.isbn}
-          placeholder="Enter ISBN here"
-          onChange={this.handleChange('isbn')}
-          margin="normal"
-          variant="outlined"
+          placeholder={AppConstants.ENTER_ISBN}
+          onChange={this.handleChange(AppConstants.ISBN_LOWERCASE)}
+          margin={AppConstants.NORMAL}
+          variant={AppConstants.OUTLINED}
         />
         <TextField
           id="outlined-name"
-          label="Title *"
+          label={AppConstants.TITLE_REQUIRED}
           value={this.state.title}
-          placeholder="Enter title here"
-          onChange={this.handleChange('title')}
-          margin="normal"
-          variant="outlined"
+          placeholder={AppConstants.ENTER_TITLE}
+          onChange={this.handleChange(AppConstants.TITLE_LOWERCASE)}
+          margin={AppConstants.NORMAL}
+          variant={AppConstants.OUTLINED}
         />
         <TextField
           id="outlined-full-width"
-          label="Notes"
+          label={AppConstants.NOTES}
           value={this.state.notes}
           style={{ margin: 8, width: '70%' }}
-          placeholder="Enter notes here"
-          onChange={this.handleChange('notes')}
-          margin="normal"
-          variant="outlined"
+          placeholder={AppConstants.ENTER_NOTES}
+          onChange={this.handleChange(AppConstants.NOTES_LOWERCASE)}
+          margin={AppConstants.NORMAL}
+          variant={AppConstants.OUTLINED}
         />
         <Button
-          variant="contained"
-          color="primary"
+          variant={AppConstants.CONTAINED}
+          color={AppConstants.PRIMARY}
           onClick={this.saveBookOnSubmit}
         >
-          Submit
+          {AppConstants.SUBMIT}
         </Button>
         <Button
-          variant="contained"
-          color="secondary"
+          variant={AppConstants.CONTAINED}
+          color={AppConstants.SECONDARY}
           onClick={this.props.goHomeAction}
         >
-          Cancel
+          {AppConstants.CANCEL}
         </Button>
       </div>
     );

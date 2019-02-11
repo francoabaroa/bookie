@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../App.css';
 
-// TODO alpha and sort imports
+import { AppConstants } from '../constants/constants';
+
 import {
+  deleteBookAction,
+  editBookAction,
   fetchBooksAction,
   goHomeAction,
-  editBookAction,
-  deleteBookAction,
 } from '../actions/actions';
 
 import Button from '@material-ui/core/Button';
@@ -60,68 +61,62 @@ class ShowBook extends Component {
   }
 
   render() {
-    // TODO: fix books.books naming scheme
     const { books } = this.props;
     const { activeBook } = books;
     const { title, isbn, notes } = activeBook;
+    const textFieldInputProps = { readOnly: true };
     return (
       <div className="App">
-        <h1 className="App-title">View a book</h1>
+        <h1 className="App-title">{AppConstants.VIEW_A_BOOK}</h1>
         <TextField
           id="outlined-read-only-input"
-          label="ISBN"
+          label={AppConstants.ISBN}
           defaultValue={isbn}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
+          margin={AppConstants.NORMAL}
+          InputProps={textFieldInputProps}
+          variant={AppConstants.OUTLINED}
         />
         <TextField
           id="outlined-read-only-input"
-          label="Title"
+          label={AppConstants.TITLE}
           defaultValue={title}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
+          margin={AppConstants.NORMAL}
+          InputProps={textFieldInputProps}
+          variant={AppConstants.OUTLINED}
         />
         <TextField
           id="outlined-read-only-input"
-          label="Notes"
+          label={AppConstants.NOTES}
           defaultValue={notes}
           style={{ margin: 8, width: '70%' }}
-          margin="normal"
+          margin={AppConstants.NORMAL}
           fullWidth
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
+          InputProps={textFieldInputProps}
+          variant={AppConstants.OUTLINED}
         />
         <Button
-          variant="contained"
-          color="primary"
+          variant={AppConstants.CONTAINED}
+          color={AppConstants.PRIMARY}
           onClick={this.props.goHomeAction}
         >
-          Home
+          {AppConstants.HOME}
         </Button>
         <Button
-          variant="contained"
+          variant={AppConstants.CONTAINED}
           onClick={this.props.editBookAction.bind(this, activeBook)}
         >
-          Edit
+          {AppConstants.EDIT}
         </Button>
         <Button
-          variant="contained"
-          color="secondary"
+          variant={AppConstants.CONTAINED}
+          color={AppConstants.SECONDARY}
           onClick={this.props.deleteBookAction.bind(
             this,
             activeBook.id,
             books.books
           )}
         >
-          Delete
+          {AppConstants.DELETE}
         </Button>
       </div>
     );

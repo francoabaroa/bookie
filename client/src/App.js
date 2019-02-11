@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 
+import { AppConstants } from './constants/constants';
+
 import {
   deleteBookAction,
   fetchBooksAction,
@@ -115,10 +117,8 @@ class App extends Component {
       currentPageEnum,
       selectCheckboxClicked,
     } = this.props.books;
-    const self = this;
     let currentPage = [];
-    // TODO fix this.props.books naming convention
-    // TODO: add view button, view is very hidden
+    const self = this;
 
     if (this.props.books.error && this.state.dialogOpen) {
       currentPage.push(
@@ -129,11 +129,11 @@ class App extends Component {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {'Pst! There was an error trying to process your request.'}
+            {AppConstants.ERROR_PROCESSING}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              {'Error: ' + this.props.books.error.message.toString()}
+              {AppConstants.ERROR + this.props.books.error.message.toString()}
             </DialogContentText>
           </DialogContent>
         </Dialog>
@@ -142,7 +142,7 @@ class App extends Component {
         self.setState({
           dialogOpen: false,
         });
-      }, 3500);
+      }, AppConstants.FOUR_SECONDS);
     }
 
     switch (currentPageEnum) {
@@ -162,31 +162,31 @@ class App extends Component {
         currentPage.push(
           <div key={0}>
             {' '}
-            <h1 className="App-title">Bookie</h1>
+            <h1 className="App-title">{AppConstants.APP_TITLE}</h1>
             <Button
-              variant="contained"
-              color="primary"
+              variant={AppConstants.CONTAINED}
+              color={AppConstants.PRIMARY}
               onClick={this.props.addBookPageAction}
             >
-              Add
+              {AppConstants.ADD}
             </Button>
             <Button
-              variant="contained"
+              variant={AppConstants.CONTAINED}
               disabled={!selectCheckboxClicked}
               onClick={this.props.showBookAction.bind(this, activeBook)}
             >
-              View
+              {AppConstants.VIEW}
             </Button>
             <Button
-              variant="contained"
+              variant={AppConstants.CONTAINED}
               disabled={!selectCheckboxClicked}
               onClick={this.props.editBookAction.bind(this, activeBook)}
             >
-              Edit
+              {AppConstants.EDIT}
             </Button>
             <Button
-              variant="contained"
-              color="secondary"
+              variant={AppConstants.CONTAINED}
+              color={AppConstants.SECONDARY}
               onClick={this.props.deleteBookAction.bind(
                 this,
                 activeBook.id,
@@ -194,7 +194,7 @@ class App extends Component {
               )}
               disabled={!selectCheckboxClicked}
             >
-              Delete
+              {AppConstants.DELETE}
             </Button>
             {this.displayBooks(this.props)}{' '}
           </div>

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../App.css';
 
+import { AppConstants } from '../constants/constants';
+
 import {
   addBookAction,
   fetchBooksAction,
@@ -100,9 +102,8 @@ class AddBook extends Component {
 
   render() {
     let missingRequiredFieldsCounter = 0;
-    const missingFields = [];
     let missingFieldsMsg = '';
-    // TODO: better way of displaying error message
+    const missingFields = [];
 
     if (
       this.state.isbn.length === 0 ||
@@ -110,7 +111,7 @@ class AddBook extends Component {
       this.state.isbn === undefined
     ) {
       missingRequiredFieldsCounter++;
-      missingFields.push('isbn');
+      missingFields.push(AppConstants.ISBN_LOWERCASE);
     }
 
     if (
@@ -119,13 +120,15 @@ class AddBook extends Component {
       this.state.title === undefined
     ) {
       if (missingRequiredFieldsCounter === 1) {
-        missingFields.push('and');
+        missingFields.push(AppConstants.AND);
       }
       missingRequiredFieldsCounter++;
-      missingFields.push('title');
+      missingFields.push(AppConstants.TITLE_LOWERCASE);
     }
-    // TODO: create string constants file
-    missingFieldsMsg = 'You forgot to add ' + missingFields.join(' ') + '!';
+    missingFieldsMsg =
+      AppConstants.YOU_FORGOT_TO +
+      missingFields.join(' ') +
+      AppConstants.EXCLAMATION_POINT;
 
     return (
       <div className="App">
@@ -136,7 +139,7 @@ class AddBook extends Component {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {"Pst! You're missing some required stuff."}
+            {AppConstants.REQUIRED_MSG_HEADER}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
@@ -144,53 +147,57 @@ class AddBook extends Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary" autoFocus>
-              Close
+            <Button
+              onClick={this.handleClose}
+              color={AppConstants.PRIMARY}
+              autoFocus
+            >
+              {AppConstants.CLOSE}
             </Button>
           </DialogActions>
         </Dialog>
-        <h1 className="App-title">Add a book</h1>
+        <h1 className="App-title">{AppConstants.ADD_A_BOOK}</h1>
         <TextField
           id="outlined-name"
-          label="ISBN *"
-          placeholder="Enter ISBN here"
+          label={AppConstants.ISBN_REQUIRED}
+          placeholder={AppConstants.ENTER_ISBN}
           value={this.state.isbn}
-          onChange={this.handleChange('isbn')}
-          margin="normal"
-          variant="outlined"
+          onChange={this.handleChange(AppConstants.ISBN_LOWERCASE)}
+          margin={AppConstants.NORMAL}
+          variant={AppConstants.OUTLINED}
         />
         <TextField
           id="outlined-name"
-          label="Title *"
-          placeholder="Enter title here"
+          label={AppConstants.TITLE_REQUIRED}
+          placeholder={AppConstants.ENTER_TITLE}
           value={this.state.title}
-          onChange={this.handleChange('title')}
-          margin="normal"
-          variant="outlined"
+          onChange={this.handleChange(AppConstants.TITLE_LOWERCASE)}
+          margin={AppConstants.NORMAL}
+          variant={AppConstants.OUTLINED}
         />
         <TextField
           id="outlined-full-width"
-          label="Notes"
+          label={AppConstants.NOTES}
           style={{ margin: 8, width: '70%' }}
-          placeholder="Enter notes here"
+          placeholder={AppConstants.ENTER_NOTES}
           value={this.state.notes}
-          onChange={this.handleChange('notes')}
-          margin="normal"
-          variant="outlined"
+          onChange={this.handleChange(AppConstants.NOTES_LOWERCASE)}
+          margin={AppConstants.NORMAL}
+          variant={AppConstants.OUTLINED}
         />
         <Button
-          variant="contained"
-          color="primary"
+          variant={AppConstants.CONTAINED}
+          color={AppConstants.PRIMARY}
           onClick={this.saveBookOnSubmit}
         >
-          Submit
+          {AppConstants.SUBMIT}
         </Button>
         <Button
-          variant="contained"
-          color="secondary"
+          variant={AppConstants.CONTAINED}
+          color={AppConstants.SECONDARY}
           onClick={this.props.goHomeAction}
         >
-          Cancel
+          {AppConstants.CANCEL}
         </Button>
       </div>
     );
