@@ -16,35 +16,19 @@ import {
 import { PageEnum } from './enums/enums';
 
 import AddBook from './components/AddBook';
-import EditBook from './components/EditBook';
-import ShowBook from './components/ShowBook';
-
 import Button from '@material-ui/core/Button';
-
-// TODO: alpha
-import PropTypes from 'prop-types';
 import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
-const styles = theme => ({
-  root: {
-    width: '100%',
-  },
-  heading: {
-    fontSize: 26,
-  },
-});
+import EditBook from './components/EditBook';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ShowBook from './components/ShowBook';
+import Typography from '@material-ui/core/Typography';
 
 const mapDispatchToProps = dispatch => ({
   fetchBooksAction: () => dispatch(fetchBooksAction()),

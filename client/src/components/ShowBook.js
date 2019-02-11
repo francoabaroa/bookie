@@ -11,36 +11,22 @@ import {
 } from '../actions/actions';
 
 import Button from '@material-ui/core/Button';
-
-import PropTypes from 'prop-types';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-  },
-  heading: {
-    fontSize: 26,
-  },
-});
-
-// TODO: ALPHA ALL
 const mapDispatchToProps = dispatch => ({
-  fetchBooksAction: () => dispatch(fetchBooksAction()),
-  goHomeAction: () => dispatch(goHomeAction()),
-  editBookAction: activeBook => dispatch(editBookAction(activeBook)),
   deleteBookAction: (activeBookId, books) =>
     dispatch(deleteBookAction(activeBookId, books)),
+  editBookAction: activeBook => dispatch(editBookAction(activeBook)),
+  fetchBooksAction: () => dispatch(fetchBooksAction()),
+  goHomeAction: () => dispatch(goHomeAction()),
 });
 
 class ShowBook extends Component {
-
   displayBooks(props) {
     const { books } = props;
     const { bookAlphabetizedMap } = books;
@@ -48,10 +34,10 @@ class ShowBook extends Component {
 
     for (var key in bookAlphabetizedMap) {
       let expansionPanelDetails = [];
-      bookAlphabetizedMap[key].forEach(z => {
+      bookAlphabetizedMap[key].forEach(book => {
         expansionPanelDetails.push(
           <ExpansionPanelDetails>
-            <Typography>{z.title}</Typography>
+            <Typography>{book.title}</Typography>
           </ExpansionPanelDetails>
         );
       });

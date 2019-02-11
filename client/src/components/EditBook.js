@@ -11,30 +11,17 @@ import {
 } from '../actions/actions';
 
 import Button from '@material-ui/core/Button';
-
-import PropTypes from 'prop-types';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import TextField from '@material-ui/core/TextField';
-
-const styles = theme => ({
-  root: {
-    width: '100%',
-  },
-  heading: {
-    fontSize: 26,
-  },
-});
+import Typography from '@material-ui/core/Typography';
 
 const mapDispatchToProps = dispatch => ({
   fetchBooksAction: () => dispatch(fetchBooksAction()),
@@ -54,8 +41,8 @@ class EditBook extends Component {
       dialogOpen: false,
       concatenatedFieldsHash: concatenatedFieldsHash,
       isbn: isbn,
-      title: title,
       notes: notes,
+      title: title,
     };
   }
 
@@ -105,10 +92,10 @@ class EditBook extends Component {
 
     for (var key in bookAlphabetizedMap) {
       let expansionPanelDetails = [];
-      bookAlphabetizedMap[key].forEach(z => {
+      bookAlphabetizedMap[key].forEach(book => {
         expansionPanelDetails.push(
           <ExpansionPanelDetails>
-            <Typography>{z.title}</Typography>
+            <Typography>{book.title}</Typography>
           </ExpansionPanelDetails>
         );
       });
