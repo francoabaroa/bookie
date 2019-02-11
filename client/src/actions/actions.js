@@ -17,7 +17,11 @@ export const FETCH_BOOKS_FAILURE = 'FETCH_BOOKS_FAILURE';
 
 export const GO_HOME = 'GO_HOME';
 
+export const SELECT_BOOK_CHECKBOX = 'SELECT_BOOK_CHECKBOX';
+
 export const SHOW_BOOK = 'SHOW_BOOK';
+
+export const UNSELECT_BOOK_CHECKBOX = 'UNSELECT_BOOK_CHECKBOX';
 
 export const UPDATE_BOOK_BEGIN = 'UPDATE_BOOK_BEGIN';
 export const UPDATE_BOOK_SUCCESS = 'UPDATE_BOOK_SUCCESS';
@@ -200,6 +204,17 @@ export function goHomeAction() {
   };
 }
 
+export const selectBookCheckbox = activeBook => ({
+  type: SELECT_BOOK_CHECKBOX,
+  payload: { activeBook },
+});
+
+export function selectBookCheckboxAction(activeBook) {
+  return dispatch => {
+    dispatch(selectBookCheckbox(activeBook));
+  };
+}
+
 export const showBook = activeBook => ({
   type: SHOW_BOOK,
   payload: { activeBook },
@@ -208,6 +223,16 @@ export const showBook = activeBook => ({
 export function showBookAction(activeBook) {
   return dispatch => {
     dispatch(showBook(activeBook));
+  };
+}
+
+export const unselectBookCheckbox = activeBook => ({
+  type: UNSELECT_BOOK_CHECKBOX,
+});
+
+export function unselectBookCheckboxAction() {
+  return dispatch => {
+    dispatch(unselectBookCheckbox());
   };
 }
 
