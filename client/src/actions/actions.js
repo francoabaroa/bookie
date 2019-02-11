@@ -13,6 +13,10 @@ export const FETCH_BOOKS_BEGIN = 'FETCH_BOOKS_BEGIN';
 export const FETCH_BOOKS_SUCCESS = 'FETCH_BOOKS_SUCCESS';
 export const FETCH_BOOKS_FAILURE = 'FETCH_BOOKS_FAILURE';
 
+export const UPDATE_BOOK_BEGIN = 'UPDATE_BOOK_BEGIN';
+export const UPDATE_BOOK_SUCCESS = 'UPDATE_BOOK_SUCCESS';
+export const UPDATE_BOOK_FAILURE = 'UPDATE_BOOK_FAILURE';
+
 function addBook(book) {
   // TODO: show relevant error message to user
   const url = 'api/v1/books';
@@ -46,6 +50,31 @@ function fetchBooks() {
   return fetch(API)
     .then(handleErrors)
     .then(res => res.json());
+}
+
+function updateBook(activeBook) {
+  // TODO: fix no-useless-concat
+  // TODO: show relevant error message to user
+  const url = 'api/v1/books' + '/' + activeBook.id;
+  const body = JSON.stringify({
+    book: {
+      isbn: activeBook.isbn,
+      title: activeBook.title,
+      notes: activeBook.notes,
+    },
+  });
+  return fetch(url, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body,
+  })
+    .then(handleErrors)
+    .then(res => {
+      console.log(res);
+    });
 }
 
 // Handle HTTP errors since fetch won't.
@@ -141,5 +170,31 @@ export function fetchBooksAction() {
         return json;
       })
       .catch(error => dispatch(fetchBooksFailure(error)));
+  };
+}
+
+export const updateBookBegin = () => ({
+  type: UPDATE_BOOK_BEGIN,
+});
+
+export const updateBookSuccess = (activeBook, books) => ({
+  type: UPDATE_BOOK_SUCCESS,
+  payload: { activeBook, books },
+});
+
+export const updateBookFailure = error => ({
+  type: UPDATE_BOOK_FAILURE,
+  payload: { error },
+});
+
+export function updateBookAction(activeBook, books) {
+  return dispatch => {
+    dispatch(updateBookBegin());
+    return updateBook(activeBook)
+      .then(json => {
+        dispatch(updateBookSuccess(activeBook, books));
+        return json;
+      })
+      .catch(error => dispatch(updateBookFailure(error)));
   };
 }
