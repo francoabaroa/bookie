@@ -6,11 +6,15 @@ import {
   FETCH_BOOKS_BEGIN,
   FETCH_BOOKS_SUCCESS,
   FETCH_BOOKS_FAILURE,
+  UPDATE_BOOK_BEGIN,
+  UPDATE_BOOK_SUCCESS,
+  UPDATE_BOOK_FAILURE,
 } from '../actions/actions';
 
 import { PageEnum } from '../enums';
 
 const initialState = {
+  // TODO: alpha
   activeBook: {},
   bookAlphabetizedMap: {},
   books: [],
@@ -130,6 +134,33 @@ export default (state = initialState, action) => {
         error: action.payload.error,
         books: [],
         bookAlphabetizedMap: {},
+      };
+
+    case UPDATE_BOOK_SUCCESS:
+      const updatedBooks = action.payload.books.map(book => {
+        if (book.id === action.payload.activeBook.id) {
+          return action.payload.activeBook;
+        } else {
+          return book;
+        }
+      });
+      const updatedMap = alphabetize(updatedBooks);
+      return {
+        ...state,
+        loading: false,
+        selectCheckboxClicked: false,
+        activeBook: {},
+        books: updatedBooks,
+        bookAlphabetizedMap: updatedMap,
+        currentPageEnum: PageEnum.ROOT,
+      };
+
+    case UPDATE_BOOK_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+        currentPageEnum: PageEnum.ROOT,
       };
 
     default:
