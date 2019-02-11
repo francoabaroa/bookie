@@ -118,8 +118,6 @@ class EditBook extends Component {
   }
 
   render() {
-    const { activeBook } = this.props.books;
-    const { title, isbn, notes } = activeBook;
     let missingRequiredFieldsCounter = 0;
     const missingFields = [];
     let missingFieldsMsg = '';

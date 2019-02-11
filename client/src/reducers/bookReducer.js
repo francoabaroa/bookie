@@ -110,6 +110,14 @@ export default (state = initialState, action) => {
         currentPageEnum: PageEnum.ROOT,
       };
 
+    case DELETE_BOOK_BEGIN:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+        currentPageEnum: PageEnum.ROOT,
+      };
+
     case DELETE_BOOK_SUCCESS:
       const filteredBooks = action.payload.books.filter(book => {
         return book.id !== action.payload.deleteBookId;
