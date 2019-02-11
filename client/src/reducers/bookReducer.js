@@ -24,13 +24,12 @@ import { PageEnum } from '../enums/enums';
 import { alphabetizeBooks } from '../utils/utils';
 
 const initialState = {
-  // TODO: alpha
   activeBook: {},
   bookAlphabetizedMap: {},
   books: [],
-  loading: false,
-  error: null,
   currentPageEnum: PageEnum.ROOT,
+  error: null,
+  loading: false,
 };
 
 export default (state = initialState, action) => {
@@ -38,45 +37,45 @@ export default (state = initialState, action) => {
     case ADD_BOOK_PAGE:
       return {
         ...state,
-        loading: false,
-        error: null,
         currentPageEnum: PageEnum.ADD,
+        error: null,
+        loading: false,
       };
 
     case ADD_BOOK_BEGIN:
       return {
         ...state,
-        loading: true,
-        error: null,
         currentPageEnum: PageEnum.ROOT,
+        error: null,
+        loading: true,
       };
 
     case ADD_BOOK_SUCCESS:
       const newestBookList = [action.payload.book].concat(action.payload.books);
       return {
         ...state,
-        loading: false,
-        books: newestBookList,
-        selectCheckboxClicked: false,
         activeBook: {},
         bookAlphabetizedMap: alphabetizeBooks(newestBookList),
+        books: newestBookList,
         currentPageEnum: PageEnum.ROOT,
+        loading: false,
+        selectCheckboxClicked: false,
       };
 
     case ADD_BOOK_FAILURE:
       return {
         ...state,
-        loading: false,
-        error: action.payload.error,
         currentPageEnum: PageEnum.ROOT,
+        error: action.payload.error,
+        loading: false,
       };
 
     case DELETE_BOOK_BEGIN:
       return {
         ...state,
-        loading: true,
-        error: null,
         currentPageEnum: PageEnum.ROOT,
+        error: null,
+        loading: true,
       };
 
     case DELETE_BOOK_SUCCESS:
@@ -86,113 +85,103 @@ export default (state = initialState, action) => {
       const filteredMap = alphabetizeBooks(filteredBooks);
       return {
         ...state,
-        loading: false,
-        books: filteredBooks,
-        selectCheckboxClicked: false,
         activeBook: {},
         bookAlphabetizedMap: filteredMap,
+        books: filteredBooks,
         currentPageEnum: PageEnum.ROOT,
+        loading: false,
+        selectCheckboxClicked: false,
       };
 
     case DELETE_BOOK_FAILURE:
       return {
         ...state,
-        loading: false,
-        error: action.payload.error,
         currentPageEnum: PageEnum.ROOT,
+        error: action.payload.error,
+        loading: false,
       };
 
     case EDIT_BOOK:
       return {
         ...state,
-        loading: false,
-        error: null,
-        selectCheckboxClicked: false,
         activeBook: action.payload.activeBook,
         currentPageEnum: PageEnum.EDIT,
+        error: null,
+        loading: false,
+        selectCheckboxClicked: false,
       };
 
     case FETCH_BOOKS_BEGIN:
-      // Mark the state as "loading" so we can show a spinner or something
-      // Reset any errors
       return {
         ...state,
-        loading: true,
         error: null,
+        loading: true,
       };
 
     case FETCH_BOOKS_SUCCESS:
-      // All done: set loading "false".
-      // Also, replace the books with the ones from the server
       let map = alphabetizeBooks(action.payload.books);
       return {
         ...state,
-        loading: false,
-        books: action.payload.books,
         bookAlphabetizedMap: map,
+        books: action.payload.books,
+        loading: false,
       };
 
     case FETCH_BOOKS_FAILURE:
-      // The request failed. It's done. So set loading to "false".
-      // Save the error, so we can display it somewhere.
-      // Since it failed, we don't have books to display anymore, so set `books` empty.
-      // This is all up to you and your app though:
-      // maybe you want to keep the books around!
-      // Do whatever seems right for your use case.
       return {
         ...state,
-        loading: false,
-        error: action.payload.error,
-        books: [],
         bookAlphabetizedMap: {},
+        books: [],
+        error: action.payload.error,
+        loading: false,
       };
 
     case GO_HOME:
       return {
         ...state,
-        loading: false,
-        error: null,
         activeBook: {},
-        selectCheckboxClicked: false,
         currentPageEnum: PageEnum.ROOT,
+        error: null,
+        loading: false,
+        selectCheckboxClicked: false,
       };
 
     case SELECT_BOOK_CHECKBOX:
       return {
         ...state,
-        loading: false,
-        error: null,
-        selectCheckboxClicked: true,
         activeBook: action.payload.activeBook,
         currentPageEnum: PageEnum.ROOT,
+        error: null,
+        loading: false,
+        selectCheckboxClicked: true,
       };
 
     case SHOW_BOOK:
       return {
         ...state,
-        loading: false,
-        error: null,
         activeBook: action.payload.activeBook,
         currentPageEnum: PageEnum.SHOW,
+        error: null,
+        loading: false,
       };
 
     case UNSELECT_BOOK_CHECKBOX:
       return {
         ...state,
-        loading: false,
-        error: null,
-        selectCheckboxClicked: false,
         activeBook: {},
         currentPageEnum: PageEnum.ROOT,
+        error: null,
+        loading: false,
+        selectCheckboxClicked: false,
       };
 
     case UPDATE_BOOK_BEGIN:
       return {
         ...state,
+        currentPageEnum: PageEnum.ROOT,
+        error: null,
         loading: true,
         selectCheckboxClicked: false,
-        error: null,
-        currentPageEnum: PageEnum.ROOT,
       };
 
     case UPDATE_BOOK_SUCCESS:
@@ -206,20 +195,20 @@ export default (state = initialState, action) => {
       const updatedMap = alphabetizeBooks(updatedBooks);
       return {
         ...state,
+        activeBook: {},
+        bookAlphabetizedMap: updatedMap,
+        books: updatedBooks,
+        currentPageEnum: PageEnum.ROOT,
         loading: false,
         selectCheckboxClicked: false,
-        activeBook: {},
-        books: updatedBooks,
-        bookAlphabetizedMap: updatedMap,
-        currentPageEnum: PageEnum.ROOT,
       };
 
     case UPDATE_BOOK_FAILURE:
       return {
         ...state,
-        loading: false,
-        error: action.payload.error,
         currentPageEnum: PageEnum.ROOT,
+        error: action.payload.error,
+        loading: false,
       };
 
     default:
