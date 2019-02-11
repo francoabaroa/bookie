@@ -5,16 +5,15 @@ export const ADD_BOOK_FAILURE = 'ADD_BOOK_FAILURE';
 export const ADD_BOOK_PAGE = 'ADD_BOOK_PAGE';
 export const ADD_BOOK_SUCCESS = 'ADD_BOOK_SUCCESS';
 
-export const FETCH_BOOKS_BEGIN = 'FETCH_BOOKS_BEGIN';
-export const FETCH_BOOKS_SUCCESS = 'FETCH_BOOKS_SUCCESS';
-export const FETCH_BOOKS_FAILURE = 'FETCH_BOOKS_FAILURE';
-
 export const DELETE_BOOK_BEGIN = 'DELETE_BOOK_BEGIN';
 export const DELETE_BOOK_SUCCESS = 'DELETE_BOOK_SUCCESS';
 export const DELETE_BOOK_FAILURE = 'DELETE_BOOK_FAILURE';
 
+export const FETCH_BOOKS_BEGIN = 'FETCH_BOOKS_BEGIN';
+export const FETCH_BOOKS_SUCCESS = 'FETCH_BOOKS_SUCCESS';
+export const FETCH_BOOKS_FAILURE = 'FETCH_BOOKS_FAILURE';
+
 function addBook(book) {
-  // TODO: fix no-useless-concat
   // TODO: show relevant error message to user
   const url = 'api/v1/books';
   const body = JSON.stringify({
@@ -30,6 +29,17 @@ function addBook(book) {
   })
     .then(handleErrors)
     .then(res => res.json());
+}
+
+function deleteBook(activeBookId) {
+  // TODO: show relevant error message to user
+  // TODO: fix no-useless-concat
+  let url = 'api/v1/books' + '/' + activeBookId;
+  return fetch(url, { method: 'delete' })
+    .then(handleErrors)
+    .then(res => {
+      console.log(res);
+    });
 }
 
 function fetchBooks() {
@@ -79,6 +89,32 @@ export function addBookAction(book, books) {
 export function addBookPageAction() {
   return dispatch => {
     dispatch(addBookPage());
+  };
+}
+
+export const deleteBookBegin = () => ({
+  type: DELETE_BOOK_BEGIN,
+});
+
+export const deleteBookSuccess = (deleteBookId, books) => ({
+  type: DELETE_BOOK_SUCCESS,
+  payload: { deleteBookId, books },
+});
+
+export const deleteBookFailure = error => ({
+  type: DELETE_BOOK_FAILURE,
+  payload: { error },
+});
+
+export function deleteBookAction(activeBookId, books) {
+  return dispatch => {
+    dispatch(deleteBookBegin());
+    return deleteBook(activeBookId)
+      .then(json => {
+        dispatch(deleteBookSuccess(activeBookId, books));
+        return json;
+      })
+      .catch(error => dispatch(deleteBookFailure(error)));
   };
 }
 
