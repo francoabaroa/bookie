@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../App.css';
 
+import stringHash from "string-hash";
+
 import {
   fetchBooksAction,
   goHomeAction,
@@ -45,9 +47,12 @@ class EditBook extends Component {
   constructor(props) {
     const { activeBook } = props.books;
     const { title, isbn, notes } = activeBook;
+    const concatenatedFields = title + isbn + notes;
+    const concatenatedFieldsHash = stringHash(concatenatedFields);
     super(props);
     this.state = {
       dialogOpen: false,
+      concatenatedFieldsHash: concatenatedFieldsHash,
       isbn: isbn,
       title: title,
       notes: notes,
@@ -60,6 +65,14 @@ class EditBook extends Component {
 
   saveBookOnSubmit = () => {
     const { title, isbn, notes } = this.state;
+    const concatenatedFields = title + isbn + notes;
+    const concatenatedFieldsHash = stringHash(concatenatedFields);
+
+    // If no changes made, do not submit.
+    if (concatenatedFieldsHash === this.state.concatenatedFieldsHash) {
+      return;
+    }
+
     if (
       isbn.length === 0 ||
       isbn === null ||
