@@ -9,3 +9,6 @@
 Book.create(isbn: "978-0-06-231609-7", title:"Sapiens", notes:"A great read")
 Book.create(isbn: "928-0-05-221419-4", title:"Animosity", notes:"It was ok")
 Book.create(isbn: "923-0-26-222567-3", title:"Baffled", notes:"Funny!")
+Book.create(isbn: "921-0-22-223567-3", title:"Counting Cows", notes:"Meh")
+Book.create(isbn: "920-0-23-222567-3", title:"Down", notes:"Alright!")
+Book.create(isbn: "923-3-24-222567-3", title:"Everything Is Perfect", notes:"Perfect read!")
