@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../App.css';
@@ -27,7 +28,32 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateBookAction(activeBook, books)),
 });
 
-class EditBook extends Component {
+type Props = {
+  addBookAction: Function,
+  addBookPageAction: Function,
+  books: any,
+  currentPageEnum: string,
+  deleteBookAction: Function,
+  editBookAction: Function,
+  error: any,
+  fetchBooksAction: Function,
+  goHomeAction: Function,
+  showBookAction: Function,
+  selectCheckboxClicked: boolean,
+  selectBookCheckboxAction: Function,
+  unselectBookCheckboxAction: Function,
+  updateBookAction: Function,
+};
+
+type State = {
+  concatenatedFieldsHash: any,
+  dialogOpen: boolean,
+  isbn: string,
+  notes: string,
+  title: string,
+};
+
+class EditBook extends React.Component<Props, State> {
   constructor(props) {
     const { activeBook } = props.books;
     const { title, isbn, notes } = activeBook;

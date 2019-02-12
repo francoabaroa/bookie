@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../App.css';
@@ -24,7 +25,30 @@ const mapDispatchToProps = dispatch => ({
   goHomeAction: () => dispatch(goHomeAction()),
 });
 
-class AddBook extends Component {
+type Props = {
+  addBookAction: Function,
+  addBookPageAction: Function,
+  books: any,
+  currentPageEnum: string,
+  deleteBookAction: Function,
+  editBookAction: Function,
+  error: any,
+  fetchBooksAction: Function,
+  goHomeAction: Function,
+  showBookAction: Function,
+  selectCheckboxClicked: boolean,
+  selectBookCheckboxAction: Function,
+  unselectBookCheckboxAction: Function,
+};
+
+type State = {
+  dialogOpen: boolean,
+  isbn: string,
+  notes: string,
+  title: string,
+};
+
+class AddBook extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
